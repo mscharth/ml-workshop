@@ -1,2 +1,2 @@
-# ml-workshop
-Machine Learning Workshop
+# Machine Learning Using Python
+MEAFA Professional Development Workshop
