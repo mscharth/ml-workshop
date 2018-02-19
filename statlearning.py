@@ -684,10 +684,23 @@ import seaborn as sns
 def plot_coefficients(model, labels):
     coef = model.coef_
     table = pd.Series(coef.ravel(), index = labels).sort_values(ascending=True, inplace=False)
+    
+    all_ = True
+    if len(table) > 20:
+        reference = pd.Series(np.abs(coef.ravel()), index = labels).sort_values(ascending=False, inplace=False)
+        reference = reference.iloc[:20]
+        table = table[reference.index]
+        table = table.sort_values(ascending=True, inplace=False)
+        all_ = False
+        
+
     fig, ax = fig, ax = plt.subplots()
-    table.T.plot(kind='barh', edgecolor='black', width=0.7, linewidth=.8, alpha=0.95, ax=ax)
+    table.T.plot(kind='barh', edgecolor='black', width=0.7, linewidth=.8, alpha=0.9, ax=ax)
     ax.tick_params(axis=u'y', length=0) 
-    ax.set_title('Estimated coefficients', fontsize=14)
+    if all_:
+        ax.set_title('Estimated coefficients', fontsize=14)
+    else: 
+        ax.set_title('Estimated coefficients (twenty largest in absolute value)', fontsize=14)
     sns.despine()
     return fig, ax
 
